@@ -1,4 +1,4 @@
-# -SER502-Spring2019--Team12
+# SER502-Spring2019--Team12
 
 Team Info:
 Vaibhav Singhal
