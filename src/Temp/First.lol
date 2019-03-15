@@ -1,4 +1,4 @@
-#temp
+# temp
 
 int abc = 5
 int check = 10
@@ -10,5 +10,5 @@ PRINT "hello world"
 
 PRINT int abc
 
-PRINT "hello world", int abc	
+# PRINT "hello world", int abc	
 
