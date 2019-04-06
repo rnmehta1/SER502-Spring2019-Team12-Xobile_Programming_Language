@@ -1,7 +1,7 @@
 from Tokenization import Tokens
 # from Parser import Parser
 
-fileName = str(input("Enter the file fileName:\t"))
+fileName = str(input("Enter the file fileName: "))
 LinesOfTokens = (Tokens.Tokenization(fileName))
 
 with open('{}tokens'.format(fileName[:-3]), 'w') as tokens:
