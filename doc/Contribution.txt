@@ -1,0 +1,25 @@
+SER 502 Project Team 12
+
+MileStone 2
+
+Vaibhav Singhal
+	Tokenization using Python, generating the .tockens file and passing it to the parser, removing the error in grammar and documentation.
+Janani Anand
+	Creating the grammar, adding the different command_statements.
+Manikanta Chintakunta
+	Creating the grammar, fixing the issues, removing right recursion and documentation.
+Nikhila Saini
+	coverting the grammar into into prolog code and generating the parse tree
+
+
+MileStone 3
+
+Vaibhav Singhal
+	Fixing some issues in Tokenization and creating automatic scripting to run all part of the project to execute the code.
+Manikanta Chintakunta
+	Updating the grammar and creating logic for semantic part.
+Janani Anand
+	Using the logic and coding the semantic part of the language.
+Nikhila Saini
+	executing the program and mapping the semantic part with the executed result, with mutliple test cases(testing).
+	
