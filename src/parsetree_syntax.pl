@@ -1,29 +1,45 @@
-/* To check the given syntax and generate a parse tree for the same */ 
+P ::=  K
 
-P ::=  K.
-K ::=  begin D; C end
+K ::=  begin C end. /*. is used as terminal and will be provided by the user while programming*/
 
-D ::=   const I = N; D
-           | var I ; D
-           | const I = N
-           | var I
+D ::= boolean I = Bl;
+    | Dt I = N;
+    | Dt I;
+    | I = I;
+    | I = N;
 
-C ::=   I : = E; C
-           | if B then C else C endif ; C
-           | while B do C endwhile ; C
-           | K ; C
-           | I := E
-           | if B then C else C endif
-           | while B do C endwhile
-           | K
+Dt ::= int | float | string | boolean
+Bl ::= true | false
 
-B ::=  true | false | E = E | not B
+/* Declaration can be done at any point of time in the program by user */
+C ::= D, C;
+    | I = E
+    | if B { C }
+    | if B { C } else { C }
+    | if B { C } elif { C } Elif else { C }
+    | while B { C }
+    | while B { C } else { C }
+    | stop
+    | K
+    | ε
+
+Elif ::= elif { C } Elif | ε
+
+B ::=  true | false | E ~ E | not B | ! B | 0 | 1
 
 E ::=  T + E | T - E | T
+T ::= ( E ) T
 T ::=  F * T | F / T | F
-F ::=  I | N 
+F ::=  I | N
 
-I ::=  x | y | z | u | v
+/* we will try to add power, interger divide and modulous for 2 Expressions in
+the program, work in progress*/
 
-N ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9  */
 
+/*grammar of identifier might be changed in next milestone, to add some
+constraints in assigning name to the variable*/
+I(X) ::= [X]
+
+N ::= D, N | ε
+
+D ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
