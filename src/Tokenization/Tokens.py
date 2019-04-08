@@ -8,14 +8,14 @@ def Tokenization(filename):
     """
     Speacial Symbols to replace prebuild operators.
     ** -> ^
-    != -> ?
+    != -> !
     // -> |
     == -> ~
     <= ≤  # ≤ alt + 243
     >= ≥  # ≥ alt + 242
     """
 
-    specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '?', '≤', '≥', '<', '>']
+    specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>',':']
 
     with open(filename, 'r') as grabber:
         lines = grabber.readlines()
@@ -48,7 +48,7 @@ def Tokenization(filename):
 
                 elif c == "\n":
                     eachline.append(token)
-                    eachline.append(';')
+                    # eachline.append(';')
                     TknsList.append(eachline.copy())
                     token = ''
                     del eachline[:]
@@ -56,7 +56,7 @@ def Tokenization(filename):
                 elif c == "#":
                     if token != '':
                         eachline.append(token)
-                        eachline.append(';')
+                        # eachline.append(';')
                         TknsList.append(eachline.copy())
                         token = ''
                         del eachline[:]
@@ -70,7 +70,7 @@ def Tokenization(filename):
                     token += c
     if not (token == '' or token == '\n'):
         eachline.append(token)
-    eachline.append(';')
+    # eachline.append(';')
     TknsList.append(eachline.copy())
     del token
     del eachline

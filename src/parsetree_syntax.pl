@@ -1,3 +1,23 @@
+﻿/*
+Mapping
+P --> Program
+K --> Block
+D --> Declaration
+C --> CommandLines (Statements)
+Dt --> Data Type
+Bl --> Boolean Value
+B --> Boolean Expression
+E --> Expression
+T --> Term
+F --> Form     % To assign Identifier or Number to Term
+I --> Identifier
+N --> Number
+D --> Digit
+*/
+
+
+/* To check the given syntax and generate a parse tree for the same */
+
 P ::=  K
 
 K ::=  begin C end. /*. is used as terminal and will be provided by the user while programming*/
