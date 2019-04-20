@@ -31,6 +31,7 @@ C ::= D, C;
     | if B { C } C
     | if B { C } else { C } C
     | if B { C } elif { C } Elif else { C } C
+    | if B { C } elif { C } Elif C
     | while B { C } C
     | while B { C } else { C } C
     | stop
