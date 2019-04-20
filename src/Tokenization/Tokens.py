@@ -15,7 +15,7 @@ def Tokenization(filename):
     >= ≥  # ≥ alt + 242
     """
 
-    specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>',':']
+    specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>', ':']
 
     with open(filename, 'r') as grabber:
         lines = grabber.readlines()
@@ -70,7 +70,7 @@ def Tokenization(filename):
                     token += c
     if not (token == '' or token == '\n'):
         eachline.append(token)
-    # eachline.append(';')
+        eachline.append(';')
     TknsList.append(eachline.copy())
     del token
     del eachline
@@ -82,5 +82,4 @@ def Tokenization(filename):
 
 if __name__ == "__main__":
     tokens = Tokenization("..\\First.lol")
-    for i in tokens:
-        print(i)
+    print(tokens)
