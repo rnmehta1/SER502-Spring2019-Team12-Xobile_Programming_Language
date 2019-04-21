@@ -46,9 +46,9 @@ def Tokenization(filename):
                         eachline.append(token)
                         token = ''
 
-                elif c == "\n":
+                elif c == ";":
                     eachline.append(token)
-                    # eachline.append(';')
+                    eachline.append(';')
                     TknsList.append(eachline.copy())
                     token = ''
                     del eachline[:]
@@ -66,6 +66,8 @@ def Tokenization(filename):
                         eachline.append(token)
                     eachline.append(c)
                     token = ''
+                elif c == "\n":
+                    pass
                 else:
                     token += c
     if not (token == '' or token == '\n'):
@@ -81,5 +83,5 @@ def Tokenization(filename):
 
 
 if __name__ == "__main__":
-    tokens = Tokenization("..\\First.lol")
+    tokens = Tokenization("..\\!xobile Samples//file.lol")
     print(tokens)
