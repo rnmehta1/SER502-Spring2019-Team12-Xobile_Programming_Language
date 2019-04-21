@@ -9,6 +9,13 @@ LinesOfTokens = (Tokens.Tokenization("!xobile Samples//{}".format(fileName)))
 with open('!xobile Samples//{}tokens'.format(fileName[:-3]), 'w') as tokens:
     print(LinesOfTokens, file=tokens, flush=True)
 
-# # Parser.Parser(LinesOfTokens)
-# with open('{}tokens'.format(fileName[:-3]), 'w') as tokens:
-#     print(LinesOfTokens, file=tokens, flush=True)
+temp = ""
+for i in LinesOfTokens:
+	temp += i + ','
+
+with open('!xobile Samples//{}tokenstreams'.format(fileName[:-3]), 'w') as tokens:
+    print(temp, file=tokens, flush=True)
+
+
+
+# Parser.Parser(LinesOfTokens)
