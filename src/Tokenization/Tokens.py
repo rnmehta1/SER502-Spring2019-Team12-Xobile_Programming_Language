@@ -82,6 +82,12 @@ def Tokenization(filename):
     return temp
 
 
+<< << << < HEAD
 if __name__ == "__main__":
     tokens = Tokenization("..\\!xobile Samples//file.lol")
     print(tokens)
+== == == =
+if __name__ == "_main_":
+    tokens = Tokenization("..\\First.lol")
+    print(tokens)
+>>>>>> > 8865ba6ed35fadbda2e5ec0607b278861e0b9938
