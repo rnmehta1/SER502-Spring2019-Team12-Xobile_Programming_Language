@@ -49,7 +49,7 @@ X ::= ANY | I | E | Bl
 
 Elif ::= elif { C } Elif | ε
 
-BE ::=  true | false | BE and BE | BE or BE | E > E | E < E | E ~ E | E ! E | E | not E | ! E | 0 | 1 
+BE ::=  true | false | BE and BE | BE or BE | E > E | E < E | E ≥ E | E ≤ E | E ~ E | E ! E | E | not E | ! E | 0 | 1
 
 E ::=  T + E | T - E | T
 T ::= ( E ) T
