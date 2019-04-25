@@ -32,6 +32,7 @@ C ::= D C;
     | while B { C } C
     | while B { C } else { C } C
     | stop
+    | K
     | ε
 
 D ::= boolean I = Bl;
