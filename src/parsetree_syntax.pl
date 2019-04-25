@@ -6,7 +6,7 @@ D --> Declaration
 C --> CommandLines (Statements)
 Dt --> Data Type
 Bl --> Boolean Value
-B --> Boolean Expression
+BE --> Boolean Expression
 E --> Expression
 T --> Term
 Nt --> Next Term     % To assign Identifier or Number to Term
@@ -25,13 +25,15 @@ P ::=  K
 K ::=  begin C end [.] /* dot(.) is used as terminal and will be provided by the user while programming*/
 
 C ::= D C;
-    | if B { C } C
-    | if B { C } else { C } C
-    | if B { C } elif { C } Elif C
-    | if B { C } elif { C } Elif else { C } C
-    | while B { C } C
-    | while B { C } else { C } C
-    | stop
+    | PRINT X
+    | if BE { C } C
+    | if BE { C } else { C } C
+    | if BE { C } elif { C } Elif C
+    | if BE { C } elif { C } Elif else { C } C
+    | while BE { C } C
+    | while BE { C } else { C } C
+    | stop   /* stop is equivalent to break command */
+    | skip   /* skip is equivalet to continue command */
     | K
     | ε
 
@@ -40,13 +42,14 @@ D ::= boolean I = Bl;
     | Dt I;
     | I = E;
 
-Dt ::= int | float | string | boolean
+Dt ::= int | float | string
 Bl ::= true | false
 
+X ::= ANY | I | E | Bl
 
 Elif ::= elif { C } Elif | ε
 
-B ::=  true | false | E ~ E |E ! E | E | not B | ! B | 0 | 1
+BE ::=  true | false | BE and BE | BE or BE | E > E | E < E | E ~ E | E ! E | E | not E | ! E | 0 | 1 
 
 E ::=  T + E | T - E | T
 T ::= ( E ) T
