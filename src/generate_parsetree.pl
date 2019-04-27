@@ -1,4 +1,4 @@
-:-use_rendering(svgtree).
+%:-use_rendering(svgtree).
 
 program(start(X)) --> rend_block(X).
 
@@ -32,12 +32,12 @@ bool_expr(bool_not(X)) --> [!], bool_expr(X).
 
 expression(add_expr(X, Y)) --> term(X), [+], expression(Y).
 expression(sub_expr(X, Y)) --> term(X), [-], expression(Y).
-expression(X) --> term(X).
+expression(just_term(X)) --> term(X).
 
 term(term(X, Y)) --> ['('], expression(X), [')'], term(Y).
 term(mul_term(X, Y)) --> new_term(X), [*], term(Y).
 term(div_term(X, Y)) --> number(X), [/], term(Y).
-term(num(X)) --> new_term(X).
+term(new_term(X)) --> new_term(X).
 
 new_term(new_term_val(X)) --> identifier(X); number(X).
 
