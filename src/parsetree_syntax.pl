@@ -29,7 +29,7 @@ D ::= ND ; D | D
 ND ::= boolean I | int I
 
 C ::= NC ; C | NC
-NC ::= ID [=] E
+NC ::= ID = E
     | print PL
     | if BE { C } else { C }
     | while BE { C }
@@ -37,14 +37,14 @@ NC ::= ID [=] E
 
 PL ::= E | BE
 
-BE ::= true | false | E ~ E | not BE
+BE ::= true | false | E ~ E | not BE | ! BE
 
 E ::=  T + E | T - E | T
 T ::= ( E ) T
 T ::=  Nt * T | Nt / T | Nt
 Nt ::=  I | N
 
-I ::= u,v,x,y,z
+I ::= u | v | x | y | z
 
-N ::= D N | []
+N ::= D N | N
 D ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9

@@ -1,4 +1,4 @@
-%:-use_rendering(svgtree).
+:-use_rendering(svgtree).
 
 program(start(X)) --> rend_block(X).
 
@@ -28,6 +28,7 @@ bool_expr(truebool(true)) --> [true].
 bool_expr(truebool(false)) --> [false].
 bool_expr(bool_exp(X, Y)) --> expression(X), [~], expression(Y).
 bool_expr(bool_not(X)) --> [not], bool_expr(X).
+bool_expr(bool_not(X)) --> [!], bool_expr(X).
 
 expression(add_expr(X, Y)) --> term(X), [+], expression(Y).
 expression(sub_expr(X, Y)) --> term(X), [-], expression(Y).
@@ -50,6 +51,7 @@ identifier(z) --> [z].
 
 % number(num(X, Y)) --> digit(X), number(Y).
 % number(num()) --> []
+number(num(X, Y)) --> digit(X),number(Y).
 number(num(X)) --> digit(X).
 
 digit(0) --> [0].
@@ -62,15 +64,6 @@ digit(6) --> [6].
 digit(7) --> [7].
 digit(8) --> [8].
 digit(9) --> [9].
-digit('-0') --> ['-0'].
-digit('-1') --> ['-1'].
-digit('-2') --> ['-2'].
-digit('-3') --> ['-3'].
-digit('-4') --> ['-4'].
-digit('-5') --> ['-5'].
-digit('-6') --> ['-6'].
-digit('-7') --> ['-7'].
-digit('-8') --> ['-8'].
-digit('-9') --> ['-9'].
+
 
 % L = [begin, boolean, x, ';', int, y, ';', int, z, ;, z, =, 0, ';', if, x, ~, x, '{', print, x, ';', '}', else, '{', z, '=', 5, ';', x, =, y, +, 2, ';', '}', while, not, x, ~, z, '{', z, =, z, +, 2, ';', print, x,~,x,';', '}', end,'.'], program(G, L, []).
