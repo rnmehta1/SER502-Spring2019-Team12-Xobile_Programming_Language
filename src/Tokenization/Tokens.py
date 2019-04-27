@@ -15,7 +15,8 @@ def Tokenization(filename):
     >= ≥  # ≥ alt + 242
     """
 
-    specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>', ':']
+    # specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>', ':']
+    specialChar = ['/', '*', '+', '-', '{', '}', '=', '~', '!']
 
     with open(filename, 'r') as grabber:
         lines = grabber.readlines()
@@ -25,21 +26,26 @@ def Tokenization(filename):
 
             for c in line:
 
-                if c == '"':
-                    if strflag is False:
-                        strflag = True
-                        eachline.append('"')
-                        if token != '':
-                            eachline.append(token)
-                            token = ''
-                    else:
-                        strflag = False
-                        eachline.append(token)
-                        eachline.append('"')
-                        token = ''
+                # if c == '"':
+                #     if strflag is False:
+                #         strflag = True
+                #         eachline.append('"')
+                #         if token != '':
+                #             eachline.append(token)
+                #             token = ''
+                #     else:
+                #         strflag = False
+                #         eachline.append(token)
+                #         eachline.append('"')
+                #         token = ''
 
-                elif strflag is True:
-                    token += c
+                # elif strflag is True:
+                #     token += c
+                if 48 <= ord(c) <= 57:
+                    if token != '':
+                        eachline.append(token)
+                        token = ''
+                    eachline.append(c)
 
                 elif c == ' ':
                     if token != '':
@@ -47,8 +53,9 @@ def Tokenization(filename):
                         token = ''
 
                 elif c == ";":
-                    eachline.append(token)
-                    eachline.append(';')
+                    if token != '':
+                        eachline.append(token)
+                    eachline.append(c)
                     TknsList.append(eachline.copy())
                     token = ''
                     del eachline[:]
@@ -56,7 +63,6 @@ def Tokenization(filename):
                 elif c == "#":
                     if token != '':
                         eachline.append(token)
-                        # eachline.append(';')
                         TknsList.append(eachline.copy())
                         token = ''
                         del eachline[:]
@@ -70,7 +76,8 @@ def Tokenization(filename):
                     pass
                 else:
                     token += c
-    if not (token == '' or token == '\n'):
+
+    if token != '' and token == '\n':
         eachline.append(token)
         eachline.append(';')
     TknsList.append(eachline.copy())
@@ -85,6 +92,6 @@ def Tokenization(filename):
 if __name__ == "__main__":
     tokens = Tokenization("..\\!xobile Samples//file.lol")
     print(tokens)
-if __name__ == "_main_":
-    tokens = Tokenization("..\\First.lol")
-    print(tokens)
+# if __name__ == "__main__":
+#     tokens = Tokenization("..\\First.lol")
+#     print(tokens)
