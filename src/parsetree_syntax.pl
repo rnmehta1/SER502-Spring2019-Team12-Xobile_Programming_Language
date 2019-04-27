@@ -21,6 +21,9 @@ D --> Digit
 P ::=  K
 
 K ::=  begin D ; C end.
+    | begin D end.
+    | begin C end.
+    | begin end.
 
 D ::= ND ; D | D
 ND ::= boolean I | int I

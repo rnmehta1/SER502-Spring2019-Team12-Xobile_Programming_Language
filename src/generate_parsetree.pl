@@ -1,10 +1,11 @@
-:-use_rendering(svgtree).
+%:-use_rendering(svgtree).
 
 program(start(X)) --> rend_block(X).
 
 rend_block(block(X, Y)) --> [begin], rend_declaration(X), rend_command(Y), [end], [.].
 rend_block(block(X)) --> [begin], rend_declaration(X), [end], [.].
 rend_block(block(X)) --> [begin], rend_command(X), [end], [.].
+rend_block(block()) --> [begin], [end], [.].
 
 rend_declaration(declaration(X, Y)) --> next_declaration(X), rend_declaration(Y).
 rend_declaration(declaration(X)) --> next_declaration(X).
