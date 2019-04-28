@@ -56,11 +56,7 @@ eval_next_cmd(assign(I,V), Env, OpEnv) :-
     update(I, Env, Val, OpEnv).
 
 eval_expr(add_expr(A,B), Env, Val):-
-    write(A),
-    write('next'),
-    write(B),
     eval_nextExpression(A,Env,Val1),
-    write(Val1),
     eval_expr(B,Env,Val2),
     Val is Val1 + Val2.
 
@@ -72,7 +68,6 @@ eval_expr(add_expr(A,B), Env, Val):-
 
 eval_expr(sub_expr(A,B),Env, Val):-
     eval_nextExpression(A,Env,Val1),
-    write(Val1),
     eval_expr(B,Env, Val2),
     Val is Val1 - Val2.
 
