@@ -14,7 +14,7 @@ add_Env([Type, Var, Val], Env, Result):-
 
 eval_program(start(X), Op):-
     eval_block(X, [], Op),
-    lookup(_Z, Op, _New).
+    lookup(_Z, Op, _New),write(Op).
 
 eval_block(block(), _Env, _OpEnv):-
     write('empty Program').
@@ -29,13 +29,13 @@ eval_block(block(X,Y), Env, OpEnv):-
     append(Env, NewOp, Temp),
     eval_command(Y, Temp, OpEnv).
 
+eval_dec(declaration(X), OpEnv):-
+    eval_next_dec(X, NewOp),
+    OpEnv = NewOp.
 eval_dec(declaration(X, Y), OpEnv):-
     eval_next_dec(X, NewOp1),
     eval_dec(Y, NewOp2),
     append(NewOp1, NewOp2, OpEnv).
-eval_dec(declaration(X), OpEnv):-
-    eval_next_dec(X, NewOp),
-    OpEnv = NewOp.
 
 eval_next_dec(boolean(X), Env):-
     L = [],
@@ -52,21 +52,45 @@ eval_command(command(X,Y), Env, OpEnv):-
 
 eval_next_cmd(assign(I,V), Env, OpEnv) :-
     is_identifier(I),
-    eval_expr(V,Val),
+    eval_expr(V,Env,Val),
     update(I, Env, Val, OpEnv).
 
-eval_expr(just_term(V), Val):-
-    eval_nextExpression(V, Val).
+eval_expr(add_expr(A,B), Env, Val):-
+    write(A),
+    write('next'),
+    write(B),
+    eval_nextExpression(A,Env,Val1),
+    write(Val1),
+    eval_expr(B,Env,Val2),
+    Val is Val1 + Val2.
+
+/*eval_expr(add_expr(A,B),Env, Val):-
+    eval_nextExpression(new_term(A),Env,Val1),
+    write(Val1),
+    eval_expr(just_term(B),Env, Val2),
+    Val is Val1 + Val2.*/
+
+eval_expr(sub_expr(A,B),Env, Val):-
+    eval_nextExpression(A,Env,Val1),
+    write(Val1),
+    eval_expr(B,Env, Val2),
+    Val is Val1 - Val2.
+
+eval_expr(just_term(V),Env, Val):-
+    eval_nextExpression(V,Env, Val).
 
 
-eval_nextExpression(new_term(T), Val) :-
-    eval_Term(T,Val).
+eval_nextExpression(new_term(T),Env, Val) :-
+    eval_Term(T,Env,Val).
 
-eval_Term(new_term_val(F),Val) :-
-    eval_digit(F, Val).
+eval_Term(new_term_val(F),Env,Val) :-
+    eval_digit(F,Val),!.
+eval_Term(new_term_val(F),Env,Val) :-
+    is_identifier(F),
+    lookup(F,Env,Val),!.
 
 eval_digit(num(N), Val):-
-    is_digit(N), Val = N, write(Val).
+    is_digit(N), Val = N.
 
 eval_digit(num(N,Y), Val):-
     New #= N * Place * 10,
