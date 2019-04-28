@@ -25,11 +25,17 @@ next_command(new_block(X)) --> rend_block(X).
 
 element(printExpr(X)) --> expression(X) ; bool_expr(X).
 
-bool_expr(truebool(true)) --> [true].
-bool_expr(truebool(false)) --> [false].
-bool_expr(bool_exp(X, Y)) --> expression(X), [~], expression(Y).
-bool_expr(bool_not(X)) --> [not], bool_expr(X).
-bool_expr(bool_not(X)) --> [!], bool_expr(X).
+bool_expr(bool_expr(X, Y)) --> bool_term(X), [~], bool_expr(Y).
+bool_expr(not_bool(X)) --> [not], bool_expr(X); [!], bool_expr(X).
+bool_expr(just_bool(X)) --> bool_term(X).
+
+bool_term(bool_true(true)) --> [true].
+bool_term(bool_false(true)) --> [false].
+bool_term(bool_expr_single(X)) --> ['('], bool_expr(X), [')'].
+bool_term(bool_expr_multi(X, Y)) --> ['('], bool_expr(X), [')'], [~], bool_term(Y).
+bool_term(new_term(X)) --> bool_new_term(X).
+
+bool_new_term(bool_expr_expr(X)) --> identifier(X).
 
 expression(add_expr(X, Y)) --> term(X), [+], expression(Y).
 expression(sub_expr(X, Y)) --> term(X), [-], expression(Y).
