@@ -31,14 +31,23 @@ ND ::= boolean I | int I
 C ::= NC ; C | NC
 NC ::= ID = E
     | ID = BE
-    | print PL
+    | print PL ;
     | if BE { C } else { C }
     | while BE { C }
     | K
 
 PL ::= E | BE
 
-BE ::= true | false | E ~ E | not BE | ! BE
+BE ::= Bt ~ BE
+    | not BE
+    | ! BE
+    | Bt
+
+Bt ::= true
+	| false
+	| ( BE )
+	| ( BE ) ~ Bt
+	| I
 
 E ::=  T + E | T - E | T
 T ::= ( E ) T
