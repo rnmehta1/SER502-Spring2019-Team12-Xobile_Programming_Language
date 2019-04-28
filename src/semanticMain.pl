@@ -4,35 +4,56 @@
 lookup(Var, [[_Type, Var, Val]| _], Val).
 lookup(Var, [_ | T], Val):- lookup(Var, T, Val).
 
-update(Var, [[Type, Var, _] | T], Val, [[Type, Var, Val] | T]).
-update(Var, [H | T], Val, [H | Env]):- update(Var, T, Val, Env).
+update(Var, [[Type, Var, _OldVal] | T], Val, [[Type, Var, Val] | T]).
+update(Var, [H | T], Val, [H | Env]):-
+    update(Var, T, Val, Env).
 
-add_Env([Type, Var, Val], Env, Result):- Temp = [[Type, Var, Val]], append(Env, Temp, Result).
+add_Env([Type, Var, Val], Env, Result):-
+    Temp = [[Type, Var, Val]],
+    append(Env, Temp, Result).
 
-eval_program(start(X), Op):- eval_block(X, [], Op), lookup(_Z, Op, _New).
+eval_program(start(X), Op):-
+    eval_block(X, [], Op),
+    lookup(_Z, Op, _New).
 
-%eval_block(block(), _Env, _OpEnv):- write('empty Program').
-%eval_block(block(X), Env, OpEnv):- eval_dec(X, NewOp), append(Env, NewOp, OpEnv).
-%eval_block(block(X), Env, OpEnv):- eval_Command(X,Env,Env1), append(Env, Env1, OpEnv).
-
+eval_block(block(), _Env, _OpEnv):-
+    write('empty Program').
+eval_block(block(X), Env, OpEnv):-
+    eval_dec(X, NewOp),
+    append(Env, NewOp, OpEnv).
+eval_block(block(X), Env, OpEnv):-
+    eval_command(X,Env,Env1),
+    append(Env, Env1, OpEnv).
 eval_block(block(X,Y), Env, OpEnv):-
     eval_dec(X, NewOp),
     append(Env, NewOp, Temp),
-    write(Temp),
-    eval_Command(Y, Temp, OpEnv).
+    eval_command(Y, Temp, OpEnv).
 
-eval_dec(declaration(X, Y), OpEnv):- eval_next_dec(X, NewOp1), eval_dec(Y, NewOp2), append(NewOp1,NewOp2, OpEnv).
-eval_dec(declaration(X), OpEnv):- eval_next_dec(X, NewOp), OpEnv = NewOp.
+eval_dec(declaration(X, Y), OpEnv):-
+    eval_next_dec(X, NewOp1),
+    eval_dec(Y, NewOp2),
+    append(NewOp1, NewOp2, OpEnv).
+eval_dec(declaration(X), OpEnv):-
+    eval_next_dec(X, NewOp),
+    OpEnv = NewOp.
 
-eval_next_dec(boolean(X), Env) :- L = [], add_Env([boolean, X, nil], L, Env).
-eval_next_dec(integer(X), Env) :- L = [], add_Env([int, X, nil], L, Env).
+eval_next_dec(boolean(X), Env):-
+    L = [],
+    add_Env([boolean, X, nil], L, Env).
+eval_next_dec(integer(X), Env):-
+    L = [],
+    add_Env([int, X, nil], L, Env).
 
-eval_Command(command(X), Env, OpEnv):- eval_next_cmd(X, Env, OpEnv).
+eval_command(command(X), Env, OpEnv):-
+    eval_next_cmd(X, Env, OpEnv).
+eval_command(command(X,Y), Env, OpEnv):-
+    eval_next_cmd(X, Env, Temp),
+    eval_command(Y, Temp, OpEnv).
 
 eval_next_cmd(assign(I,V), Env, OpEnv) :-
     is_identifier(I),
     eval_expr(V,Val),
-    update(I, Val, Env, OpEnv).
+    update(I, Env, Val, OpEnv).
 
 eval_expr(just_term(V), Val):-
     eval_nextExpression(V, Val).
@@ -45,7 +66,6 @@ eval_Term(new_term_val(F),Val) :-
     eval_digit(F, Val).
 
 eval_digit(num(N), Val):-
-    write(N), write(nl),
     is_digit(N), Val = N, write(Val).
 
 eval_digit(num(N,Y), Val):-
@@ -62,10 +82,6 @@ check(num(N,Y), Temp, Val):-
     Temp #= Place * 10,
     check(Y, Place, Newnew),
     Val is New + Newnew.
-
-    
-
-
 
 is_identifier(u).
 is_identifier(v).
@@ -88,10 +104,7 @@ is_digit(9).
 /*Work in Progress*/
 
 
-/*eval_cmd(command(X,Y)) --> eval_next_cmd(X), eval_cmd(Y).
-eval_cmd(command(X)) --> eval_next_cmd(X).
-
-eval_next_cmd(assign(X, Y)) --> identifier(X), [=], eval_expr(Y), [;].
+/*
 eval_next_cmd(print(X)) --> [print], element(X), [;].
 eval_next_cmd(if(X, Y, Z)) --> [if], eval_bool_expr(X), ['{'], eval_cmd(Y), ['}'], [else], ['{'], eval_cmd(Z), ['}'].
 eval_next_cmd(while(X, Y)) --> [while], eval_bool_expr(X), ['{'], eval_cmd(Y), ['}'].
