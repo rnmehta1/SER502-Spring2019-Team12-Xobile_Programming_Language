@@ -71,6 +71,8 @@ eval_expr(sub_expr(A,B),Env, Val):-
     eval_expr(B,Env, Val2),
     Val is Val1 - Val2.
 
+
+
 eval_expr(just_term(V),Env, Val):-
     eval_nextExpression(V,Env, Val).
 
@@ -78,7 +80,18 @@ eval_expr(just_term(V),Env, Val):-
 eval_nextExpression(new_term(T),Env, Val) :-
     eval_Term(T,Env,Val).
 
-eval_Term(new_term_val(F),Env,Val) :-
+eval_nextExpression(mul_term(A,B),Env, Val):-
+    eval_Term(A,Env,Val1),
+    eval_nextExpression(B,Env, Val2),
+    Val is Val1 * Val2.
+
+eval_nextExpression(div_term(A,B),Env, Val):-
+    eval_Term(A,Env,Val1),
+    eval_nextExpression(B,Env, Val2),
+    Val is Val1 / Val2.
+
+
+eval_Term(new_term_val(F),_Env,Val) :-
     eval_digit(F,Val),!.
 eval_Term(new_term_val(F),Env,Val) :-
     is_identifier(F),
