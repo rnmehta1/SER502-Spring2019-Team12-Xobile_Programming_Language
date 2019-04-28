@@ -17,6 +17,7 @@ rend_command(command(X,Y)) --> next_command(X), rend_command(Y).
 rend_command(command(X)) --> next_command(X).
 
 next_command(assign(X, Y)) --> identifier(X), [=], expression(Y), [;].
+next_command(assign(X, Y)) --> identifier(X), [=], bool_expr(Y), [;].
 next_command(print(X)) --> [print], element(X), [;].
 next_command(if(X, Y, Z)) --> [if], bool_expr(X), ['{'], rend_command(Y), ['}'], [else], ['{'], rend_command(Z), ['}'].
 next_command(while(X, Y)) --> [while], bool_expr(X), ['{'], rend_command(Y), ['}'].

@@ -30,6 +30,7 @@ ND ::= boolean I | int I
 
 C ::= NC ; C | NC
 NC ::= ID = E
+    | ID = BE
     | print PL
     | if BE { C } else { C }
     | while BE { C }
