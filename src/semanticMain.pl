@@ -27,6 +27,14 @@ eval_command(command(X,Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_comma
 
 eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_expr(V,Env,Val), update(I, Env, Val, OpEnv).
 
+eval_next_cmd(print(X), Env, OpEnv) :-
+    eval_print(X, Env,Val), update(I, Env, Val, OpEnv).
+
+
+eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val),write(Val).
+eval_print(printExpr(X), Env, Val):- eval_printExpr(X, Env,Val).
+eval_printExpr(just_term(X), Env, Val):-
+    eval_nextExpression(X, Env, Val),write(Val).
 /*
 eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V,R, Env, OpEnv), update(I, Env, R, OpEnv).
 
