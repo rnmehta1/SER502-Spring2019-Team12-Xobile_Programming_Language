@@ -33,7 +33,7 @@ bool_term(bool_true(true)) --> [true].
 bool_term(bool_false(true)) --> [false].
 bool_term(bool_expr_single(X)) --> ['('], bool_expr(X), [')'].
 bool_term(bool_expr_multi(X, Y)) --> ['('], bool_expr(X), [')'], [~], bool_term(Y).
-bool_term(new_term(X)) --> identifier(X).
+bool_term(new_term(X)) --> new_term(X).
 
 expression(add_expr(X, Y)) --> term(X), [+], expression(Y).
 expression(sub_expr(X, Y)) --> term(X), [-], expression(Y).
