@@ -7,6 +7,8 @@ C --> CommandLines (Statements)
 NC --> New CommandLine
 ND --> New Declaration
 PL --> printLine
+Str --> String Expression
+X --> any char or string
 I --> identifier
 BE --> Boolean Expression
 E --> Expression
@@ -36,7 +38,8 @@ NC ::= ID = E
     | while BE { C }
     | K
 
-PL ::= E | BE
+PL ::= E | BE | " Str "
+Str ::= [X]
 
 BE ::= Bt ~ BE
     | not BE

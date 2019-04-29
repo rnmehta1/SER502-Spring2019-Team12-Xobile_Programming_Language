@@ -23,7 +23,8 @@ next_command(if(X, Y, Z)) --> [if], bool_expr(X), ['{'], rend_command(Y), ['}'],
 next_command(while(X, Y)) --> [while], bool_expr(X), ['{'], rend_command(Y), ['}'].
 next_command(new_block(X)) --> rend_block(X).
 
-element(printExpr(X)) --> expression(X) ; bool_expr(X).
+element(printExpr(X)) --> expression(X) ; bool_expr(X) ; ['"'], str(X),['"'].
+str(stringStr(X)) --> [X].
 
 bool_expr(bool_expr(X, Y)) --> bool_term(X), [~], bool_expr(Y).
 bool_expr(not_bool(X)) --> [not], bool_expr(X); [!], bool_expr(X).
