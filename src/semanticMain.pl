@@ -27,17 +27,20 @@ eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_comm
 
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_expr(V, Env, Val), update(I, Env, Val, OpEnv).
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V, R, Env, OpEnv), update(I, Env, R, OpEnv).
-
 eval_next_cmd(print(X), Env, OpEnv) :- eval_print(X, Env,Val), update(I, Env, Val, OpEnv).
+eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
+eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_while(Result,X, Y, Z, Env, OpEnv).
+
 
 eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val),write(Val).
 eval_print(printExpr(X), Env, Val):- eval_print_expr(X, Env,Val).
-eval_print_expr(just_term(X), Env, Val):- eval_new_expr(X, Env, Val),write(Val).
 
-eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
+eval_print_expr(just_term(X), Env, Val):- eval_new_expr(X, Env, Val),write(Val).
 
 evaluate_if(true,Y,_Z,Env, OpEnv):- eval_command(Y, Env, OpEnv).
 evaluate_if(false, _Y, Z, Env, OpEnv):- eval_command(Z, Env, OpEnv).
+
+evaluate_while(true,X, Y, Z, Env, OpEnv).
 
 eval_bool_expr(bool_expr(X,Y),true,Env,OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
 eval_bool_expr(bool_expr(X,Y),false,Env,OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 = R2).
@@ -49,16 +52,6 @@ eval_bool_expr(not_bool(X), true, Env, OpEnv):- eval_bool_expr(X, Temp, Env, OpE
 eval_bool_term(new_term(X), R, Env, OpEnv):- eval_Term(X, Env, R).
 eval_bool_term(bool_true(true), true, _Env, _OpEnv).
 eval_bool_term(bool_false(false), false, _Env, _OpEnv).
-
-/*
-eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, false, Env,OpEnv).
-eval_next_cmd(while(X,Y), Env, OpEnv):- write(Env), eval_bool_expr(X, true, Env,OpEnv), eval_command(Y,Env,OpEnv), eval_next_cmd(while(X,Y), Env, OpEnv).
-
-eval_next_cmd(print(X), Env, _OpEnv) :- eval_print(X, Env).
-
-eval_print(printExpr(X), Env):- eval_print_expr(X, Env).
-eval_print_expr(just_term(X), Env):- eval_new_expr(X, Env, Val),write(Val).
-*/
 
 eval_expr(add_expr(A,B), Env, Val):- eval_new_expr(A,Env,Val1), eval_expr(B,Env,Val2), Val is Val1 + Val2.
 eval_expr(sub_expr(A,B),Env, Val):- eval_new_expr(A,Env,Val1), eval_expr(B,Env, Val2), Val is Val1 - Val2.
