@@ -28,8 +28,13 @@ eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_comm
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_expr(V, Env, Val), update(I, Env, Val, OpEnv).
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V, R, Env, OpEnv), update(I, Env, R, OpEnv).
 
-eval_next_cmd(if(X,Y,Z), Env, OpEnv):-
-    eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
+eval_next_cmd(print(X), Env, OpEnv) :- eval_print(X, Env,Val), update(I, Env, Val, OpEnv).
+
+eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val),write(Val).
+eval_print(printExpr(X), Env, Val):- eval_print_expr(X, Env,Val).
+eval_print_expr(just_term(X), Env, Val):- eval_new_expr(X, Env, Val),write(Val).
+
+eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
 
 evaluate_if(true,Y,_Z,Env, OpEnv):- eval_command(Y, Env, OpEnv).
 evaluate_if(false, _Y, Z, Env, OpEnv):- eval_command(Z, Env, OpEnv).
@@ -49,21 +54,19 @@ eval_bool_term(bool_false(false), false, _Env, _OpEnv).
 eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, false, Env,OpEnv).
 eval_next_cmd(while(X,Y), Env, OpEnv):- write(Env), eval_bool_expr(X, true, Env,OpEnv), eval_command(Y,Env,OpEnv), eval_next_cmd(while(X,Y), Env, OpEnv).
 
-eval_next_cmd(print(X), Env, _OpEnv) :-
-    eval_print(X, Env).
+eval_next_cmd(print(X), Env, _OpEnv) :- eval_print(X, Env).
 
-eval_print(printExpr(X), Env):- eval_printExpr(X, Env).
-eval_printExpr(just_term(X), Env):-
-    eval_nextExpression(X, Env, Val),write(Val).
+eval_print(printExpr(X), Env):- eval_print_expr(X, Env).
+eval_print_expr(just_term(X), Env):- eval_new_expr(X, Env, Val),write(Val).
 */
 
-eval_expr(add_expr(A,B), Env, Val):- eval_nextExpression(A,Env,Val1), eval_expr(B,Env,Val2), Val is Val1 + Val2.
-eval_expr(sub_expr(A,B),Env, Val):- eval_nextExpression(A,Env,Val1), eval_expr(B,Env, Val2), Val is Val1 - Val2.
-eval_expr(just_term(V),Env, Val):- eval_nextExpression(V,Env, Val).
+eval_expr(add_expr(A,B), Env, Val):- eval_new_expr(A,Env,Val1), eval_expr(B,Env,Val2), Val is Val1 + Val2.
+eval_expr(sub_expr(A,B),Env, Val):- eval_new_expr(A,Env,Val1), eval_expr(B,Env, Val2), Val is Val1 - Val2.
+eval_expr(just_term(V),Env, Val):- eval_new_expr(V,Env, Val).
 
-eval_nextExpression(new_term(T),Env, Val):- eval_Term(T,Env,Val).
-eval_nextExpression(mul_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_nextExpression(B,Env, Val2), Val is Val1 * Val2.
-eval_nextExpression(div_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_nextExpression(B,Env, Val2), Val is Val1 / Val2.
+eval_new_expr(new_term(T),Env, Val):- eval_Term(T,Env,Val).
+eval_new_expr(mul_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_new_expr(B,Env, Val2), Val is Val1 * Val2.
+eval_new_expr(div_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_new_expr(B,Env, Val2), Val is Val1 / Val2.
 
 eval_Term(new_term_val(F), Env, Val) :- eval_digit(F, Val).
 eval_Term(new_term_val(F), Env, Val) :- is_identifier(F), lookup(F,Env,Val).
@@ -91,3 +94,6 @@ is_digit(6).
 is_digit(7).
 is_digit(8).
 is_digit(9).
+
+
+
