@@ -41,7 +41,7 @@ expression(just_term(X)) --> term(X).
 
 term(term(X, Y)) --> ['('], expression(X), [')'], term(Y).
 term(mul_term(X, Y)) --> new_term(X), [*], term(Y).
-term(div_term(X, Y)) --> number(X), [/], term(Y).
+term(div_term(X, Y)) --> new_term(X), [/], term(Y).
 term(new_term(X)) --> new_term(X).
 
 new_term(new_term_val(X)) --> identifier(X); number(X).
@@ -54,8 +54,6 @@ identifier(z) --> [z].
 
 
 
-% number(num(X, Y)) --> digit(X), number(Y).
-% number(num()) --> []
 number(num(X, Y)) --> digit(X),number(Y).
 number(num(X)) --> digit(X).
 
@@ -69,6 +67,3 @@ digit(6) --> [6].
 digit(7) --> [7].
 digit(8) --> [8].
 digit(9) --> [9].
-
-
-% L = [begin, boolean, x, ';', int, y, ';', int, z, ;, z, =, 0, ';', if, x, ~, x, '{', print, x, ';', '}', else, '{', z, '=', 5, ';', x, =, y, +, 2, ';', '}', while, not, x, ~, z, '{', z, =, z, +, 2, ';', print, x,~,x,';', '}', end,'.'], program(G, L, []).
