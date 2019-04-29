@@ -23,21 +23,22 @@ eval_next_dec(boolean(X), Env):- L = [], add_Env([boolean, X, nil], L, Env).
 eval_next_dec(integer(X), Env):- L = [], add_Env([int, X, nil], L, Env).
 
 eval_command(command(X), Env, OpEnv):- eval_next_cmd(X, Env, OpEnv).
-eval_command(command(X,Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_command(Y, Temp, OpEnv).
+eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_command(Y, Temp, OpEnv).
 
-eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_expr(V,Env,Val), update(I, Env, Val, OpEnv).
+eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_expr(V, Env, Val), update(I, Env, Val, OpEnv).
+eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V, R, Env, OpEnv), update(I, Env, R, OpEnv).
 
-eval_next_cmd(print(X), Env, OpEnv) :-
-    eval_print(X, Env,Val), update(I, Env, Val, OpEnv).
+eval_bool_expr(bool_expr(X,Y),true,Env,OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
+eval_bool_expr(bool_expr(X,Y),false,Env,OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 = R2).
 
+eval_bool_expr(just_bool(X), R, Env, OpEnv):- eval_bool_term(X, R, Env, OpEnv).
+eval_bool_expr(not_bool(X), false, Env, OpEnv):- eval_bool_expr(X, Temp, Env, OpEnv), Temp = true.
+eval_bool_expr(not_bool(X), true, Env, OpEnv):- eval_bool_expr(X, Temp, Env, OpEnv), Temp = false.
 
-eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val),write(Val).
-eval_print(printExpr(X), Env, Val):- eval_printExpr(X, Env,Val).
-eval_printExpr(just_term(X), Env, Val):-
-    eval_nextExpression(X, Env, Val),write(Val).
+eval_bool_term(bool_true(true), true, _Env, _OpEnv).
+eval_bool_term(bool_false(false), false, _Env, _OpEnv).
+
 /*
-eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V,R, Env, OpEnv), update(I, Env, R, OpEnv).
-
 eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, false, Env,OpEnv).
 eval_next_cmd(while(X,Y), Env, OpEnv):- write(Env), eval_bool_expr(X, true, Env,OpEnv), eval_command(Y,Env,OpEnv), eval_next_cmd(while(X,Y), Env, OpEnv).
 
@@ -47,25 +48,6 @@ eval_next_cmd(print(X), Env, _OpEnv) :-
 eval_print(printExpr(X), Env):- eval_printExpr(X, Env).
 eval_printExpr(just_term(X), Env):-
     eval_nextExpression(X, Env, Val),write(Val).
-
-eval_bool_expr(bool_expr(X, Y), true, Env, OpEnv) :-
-    eval_bool_term(X, Val1, Env, OpEnv),
-    eval_bool_expr(Y, Val2, Env, OpEnv),
-    Val1 = Val2.
-eval_bool_expr(bool_expr(X, Y), false, Env, OpEnv):-
-    eval_bool_term(X, Val1, Env, OpEnv),
-    eval_bool_expr(Y, Val2, Env, OpEnv),
-    \+(Val1 = Val2).
-
-%eval_bool_expr(not_bool(X), Val, Env, OpEnv) :- \+eval_bool_expr(X, Val1,Env,OpEnv), Val = true.
-%eval_bool_expr(not_bool(X), Val, Env, OpEnv) :- eval_bool_expr(X), Val = false.
-eval_bool_expr(just_bool(X), Val, Env, OpEnv) :- eval_bool_term(X, Val, Env, OpEnv).
-
-eval_bool_term(bool_true(true), true, Env, _OpEnv).
-eval_bool_term(bool_false(false), false, Env, _OpEnv).
-%eval_bool_term(bool_expr_single(X), Val, Env, OpEnv) :- eval_bool_expr(X).
-%eval_bool_term(bool_expr_multi(X, Y), Val, Env, OpEnv) :- eval_bool_expr(X,Y).
-eval_bool_term(new_term(X), Val, Env, _OpEnv) :- eval_Term(X, Env, Val).
 */
 
 eval_expr(add_expr(A,B), Env, Val):- eval_nextExpression(A,Env,Val1), eval_expr(B,Env,Val2), Val is Val1 + Val2.
@@ -76,7 +58,7 @@ eval_nextExpression(new_term(T),Env, Val):- eval_Term(T,Env,Val).
 eval_nextExpression(mul_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_nextExpression(B,Env, Val2), Val is Val1 * Val2.
 eval_nextExpression(div_term(A,B),Env, Val):- eval_Term(A,Env,Val1), eval_nextExpression(B,Env, Val2), Val is Val1 / Val2.
 
-eval_Term(new_term_val(F), Env, Val) :- eval_digit(F,Val).
+eval_Term(new_term_val(F), Env, Val) :- eval_digit(F, Val).
 eval_Term(new_term_val(F), Env, Val) :- is_identifier(F), lookup(F,Env,Val).
 
 eval_digit(num(N), Val):- is_digit(N), Val = N.
