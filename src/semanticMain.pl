@@ -5,13 +5,6 @@ lookup(Var, [[_Type, Var, Val]| _], Val).
 lookup(Var, [_ | T], Val):- lookup(Var, T, Val).
 
 update(Var, [[Type, Var, _OldVal] | T], Val, [[Type, Var, Val] | T]).
-update(Var, [H | T], Val, [H %:-use_rendering(svgtree).
-:-use_module(library(clpfd)).
-
-lookup(Var, [[_Type, Var, Val]| _], Val).
-lookup(Var, [_ | T], Val):- lookup(Var, T, Val).
-
-update(Var, [[Type, Var, _OldVal] | T], Val, [[Type, Var, Val] | T]).
 update(Var, [H | T], Val, [H | Env]):- update(Var, T, Val, Env).
 
 add_Env([Type, Var, Val], Env, Result):- Temp = [[Type, Var, Val]], append(Env, Temp, Result).
@@ -33,15 +26,14 @@ eval_command(command(X), Env, OpEnv):- eval_next_cmd(X, Env, OpEnv).
 eval_command(command(X,Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_command(Y, Temp, OpEnv).
 
 eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_expr(V,Env,Val), update(I, Env, Val, OpEnv).
-eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V,R, Env, OpEnv), update(I, Env, R, OpEnv).
 
+/*
+eval_next_cmd(assign(I,V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V,R, Env, OpEnv), update(I, Env, R, OpEnv).
 
 eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, false, Env,OpEnv).
 eval_next_cmd(while(X,Y), Env, OpEnv):- write(Env), eval_bool_expr(X, true, Env,OpEnv), eval_command(Y,Env,OpEnv), eval_next_cmd(while(X,Y), Env, OpEnv).
 
-
-
-/*eval_next_cmd(print(X), Env, _OpEnv) :-
+eval_next_cmd(print(X), Env, _OpEnv) :-
     eval_print(X, Env).
 
 eval_print(printExpr(X), Env):- eval_printExpr(X, Env).
