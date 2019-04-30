@@ -27,10 +27,11 @@ next_command(new_block(X)) --> rend_block(X).
 
 element(printExpr(X)) --> expression(X) ; bool_expr(X).
 element(printString(X)) --> ['"'], [X],['"'].
-%str(stringStr(X)) --> [X].
 
 bool_expr(bool_expr(X, Y)) --> bool_term(X), [~], bool_expr(Y).
-bool_expr(not_bool(X)) --> [not], bool_expr(X); [!], bool_expr(X).
+/*bool_expr(bool_greater_expr(X, Y)) --> bool_term(X), [>], bool_expr(Y).
+bool_expr(bool_less_expr(X, Y)) --> bool_term(X), [<], bool_expr(Y).
+*/bool_expr(not_bool(X)) --> [not], bool_expr(X); [!], bool_expr(X).
 bool_expr(just_bool(X)) --> bool_term(X).
 
 bool_term(bool_true(true)) --> [true].
