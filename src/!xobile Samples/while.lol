@@ -1,12 +1,12 @@
 begin
 int x;
 int y;
-x = 4;
+x = 5;
 y = 0;
 while not x ~ y
 {
 	print x;
-	x = y + 1;
+	x = x - 1;
 }
 end
 .

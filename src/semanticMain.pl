@@ -24,10 +24,11 @@ eval_next_dec(integer(X), Env):- L = [], add_Env([int, X, nil], L, Env).
 
 eval_command(command(X), Env, OpEnv):- eval_next_cmd(X, Env, OpEnv).
 eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_command(Y, Temp, OpEnv).
+eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_command(Y, Env, OpEnv).
 
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_expr(V, Env, Val), update(I, Env, Val, OpEnv).
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V, R, Env, OpEnv), update(I, Env, R, OpEnv).
-eval_next_cmd(print(X), Env, OpEnv) :- eval_print(X, Env).
+eval_next_cmd(print(X), Env, Env) :- eval_print(X, Env).
 eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
 eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_while(Result,X, Y, Env, OpEnv).
 
@@ -38,7 +39,7 @@ eval_print(printString(X),_Env):- write(X).
 evaluate_if(true,Y,_Z,Env, OpEnv):- eval_command(Y, Env, OpEnv).
 evaluate_if(false, _Y, Z, Env, OpEnv):- eval_command(Z, Env, OpEnv).
 
-evaluate_while(true,X, Y, Env, OpEnv):- eval_command(Y,Env,OpEnv), eval_next_cmd(while(X,Y),Env,OpEnv).
+evaluate_while(true,X, Y, Env, OpEnv):- eval_command(Y,Env,Temp), eval_next_cmd(while(X,Y),Temp,OpEnv).
 evaluate_while(false,_X,_Y,_Env,_OpEnv).
 
 eval_bool_expr(bool_expr(X,Y), true, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
