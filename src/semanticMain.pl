@@ -34,7 +34,6 @@ eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), e
 eval_print(printExpr(X), Env):- eval_expr(X, Env, Val), write(Val).
 eval_print(printExpr(X), Env):- eval_bool_expr(X, Val,Env,_OpEnv), write(Val).
 eval_print(printString(X),_Env):- write(X).
-% eval_print_expr(just_term(X), Env, Val):- eval_new_expr(X, Env, Val),write(Val).
 
 evaluate_if(true,Y,_Z,Env, OpEnv):- eval_command(Y, Env, OpEnv).
 evaluate_if(false, _Y, Z, Env, OpEnv):- eval_command(Z, Env, OpEnv).
