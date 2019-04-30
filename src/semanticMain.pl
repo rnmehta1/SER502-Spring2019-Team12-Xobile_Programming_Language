@@ -43,6 +43,14 @@ evaluate_while(false,_X,_Y,_Env,_OpEnv).
 
 eval_bool_expr(bool_expr(X,Y), true, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
 eval_bool_expr(bool_expr(X,Y), false, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 = R2).
+eval_bool_expr(bool_greater_expr(X,Y), Val, Env, OpEnv):- eval_expr(X, R1, Env), eval_expr(Y, R2, Env),
+	(
+		(R1 > R2, Val = true); (\+(R1 > R2), Val = false)
+	). 
+eval_bool_expr(bool_lesser_expr(X,Y), Val, Env, OpEnv):- eval_expr(X, R1, Env), eval_expr(Y, R2, Env),
+	(
+		(R1 < R2, Val = true); (\+(R1 < R2), Val = false)
+	). 
 /*eval_bool_expr(bool_greater_expr(X,Y), true, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 > R2.
 eval_bool_expr(bool_greater_expr(X,Y), false, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 > R2).
 eval_bool_expr(bool_less_expr(X,Y), true, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 < R2.
