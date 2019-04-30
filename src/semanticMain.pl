@@ -32,7 +32,7 @@ eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), ev
 eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_while(Result,X, Y, Z, Env, OpEnv).
 
 
-eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val),write(Val).
+eval_print(printExpr(X), Env, Val):- eval_expr(X, Env,Val), write(Val).
 eval_print(printExpr(X), Env, Val):- eval_print_expr(X, Env,Val).
 
 eval_print_expr(just_term(X), Env, Val):- eval_new_expr(X, Env, Val),write(Val).
