@@ -86,6 +86,3 @@ is_digit(6).
 is_digit(7).
 is_digit(8).
 is_digit(9).
-
-
-

@@ -26,31 +26,39 @@ def Tokenization(filename):
 
             for c in line:
 
-                # if c == '"':
-                #     if strflag is False:
-                #         strflag = True
-                #         eachline.append('"')
-                #         if token != '':
-                #             eachline.append(token)
-                #             token = ''
-                #     else:
-                #         strflag = False
-                #         eachline.append(token)
-                #         eachline.append('"')
-                #         token = ''
+                if c == '"':
+                    if strflag is False:
+                        strflag = True
+                        if token != '':
+                            eachline.append(token)
+                            token = ''
+                        eachline.append(c)
+                    else:
+                        strflag = False
+                        if token != '':
+                            eachline.append(token)
+                        eachline.append('"')
+                        token = ''
 
-                # elif strflag is True:
-                #     token += c
-                if 48 <= ord(c) <= 57:
+                elif strflag is True:
+                    token += c
+
+                elif 48 <= ord(c) <= 57:
                     if token != '':
                         eachline.append(token)
                         token = ''
                     eachline.append(c)
 
-                elif c == ' ':
+                elif c == ' ' or c == '\t':
                     if token != '':
                         eachline.append(token)
                         token = ''
+                elif c == '\n':
+                    if token != '':
+                        eachline.append(token)
+                    token = ''
+                    TknsList.append(eachline.copy())
+                    del eachline[:]
 
                 elif c == ";":
                     if token != '':
@@ -70,10 +78,12 @@ def Tokenization(filename):
                 elif strflag is False and c in specialChar:
                     if token != '':
                         eachline.append(token)
-                    eachline.append(c)
                     token = ''
-                elif c == "\n":
-                    pass
+
+                    if c == '{' or c == '}':
+                        eachline.append('\'' + c + '\'')
+                    else:
+                        eachline.append(c)
                 else:
                     token += c
 
