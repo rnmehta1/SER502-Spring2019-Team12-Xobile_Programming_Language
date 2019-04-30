@@ -1,4 +1,3 @@
-%:-use_rendering(svgtree).
 :-use_module(library(clpfd)).
 
 lookup(Var, [[_Type, Var, Val]| _], Val).
@@ -69,7 +68,6 @@ eval_digit(num(N,Y), Val):- New #= N * Place * 10, check(Y, Place,Newnew), Val i
 check(num(Y),Place, Newnew):- Place = 1, Newnew is Y * Place.
 check(num(N,Y), Temp, Val):- New #= N * Place * 10, Temp #= Place * 10, check(Y, Place, Newnew), Val is New + Newnew.
 
-is_identifier(u).
 is_identifier(v).
 is_identifier(w).
 is_identifier(x).

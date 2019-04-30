@@ -31,5 +31,4 @@ else
 {
 	print x;
 }
-end
-.
+end.

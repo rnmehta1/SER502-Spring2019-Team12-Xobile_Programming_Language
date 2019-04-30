@@ -16,7 +16,7 @@ def Tokenization(filename):
     """
 
     # specialChar = ['/', '*', '+', '-', '^', '|', '%', '{', '}', '(', ')', '[', ']', '=', '~', '!', '≤', '≥', '<', '>', ':']
-    specialChar = ['/', '*', '+', '-', '{', '}', '=', '~', '!']
+    specialChar = ['/', '*', '+', '-', '{', '}', '=', '~', '!','.']
 
     with open(filename, 'r') as grabber:
         lines = grabber.readlines()

@@ -20,12 +20,13 @@ process(Char, Stream):-
 
 readFile(File,Final):-
     open(File, read, Stream),
-    get_char(Stream, Char),
+    read(Stream,Final),
+/*    get_char(Stream, Char),
     Temp = '',
     process(Char, Stream, Temp, Final),
-    close(Stream).
+*/    close(Stream).
 
-process(end_of_file, _,_,_):-!.
+/*process(end_of_file, _,_,_):-!.
 
 process(Char, Stream, Temp, Final):-
     \+(Char = '\n'),
@@ -39,3 +40,4 @@ process(Char, Stream, Temp, Final):-
     get_char(Stream, NextChar),
     NewTemp = '',
     process(NextChar, Stream, NewTemp, NewFinal).
+*/
