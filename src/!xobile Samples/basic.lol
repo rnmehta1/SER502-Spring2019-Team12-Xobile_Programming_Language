@@ -5,7 +5,6 @@ print x;
 x = x + 1;
 print x;
 print "its working";
-	if {};
 end
 .
 

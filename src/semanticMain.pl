@@ -27,8 +27,8 @@ eval_command(command(X, Y), Env, OpEnv):- eval_next_cmd(X, Env, Temp), eval_comm
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_expr(V, Env, Val), update(I, Env, Val, OpEnv).
 eval_next_cmd(assign(I, V), Env, OpEnv) :- is_identifier(I), eval_bool_expr(V, Val, Env, OpEnv), update(I, Env, Val, OpEnv).
 eval_next_cmd(print(X), Env, Env) :- eval_print(X, Env).
-eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_if(Result, Y, Z, Env, OpEnv).
-eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, OpEnv), evaluate_while(Result,X, Y, Env, OpEnv).
+eval_next_cmd(if(X,Y,Z), Env, OpEnv):- eval_bool_expr(X, Result, Env, Temp), evaluate_if(Result, Y, Z, Temp, OpEnv).
+eval_next_cmd(while(X,Y), Env, OpEnv):- eval_bool_expr(X, Result, Env, Temp), evaluate_while(Result,X, Y, Temp, OpEnv).
 
 eval_print(printExpr(X), Env):- eval_expr(X, Env, Val), write(Val).
 eval_print(printExpr(X), Env):- eval_bool_expr(X, Val,Env,_OpEnv), write(Val).
@@ -38,15 +38,15 @@ evaluate_if(true,Y,_Z,Env, OpEnv):- eval_command(Y, Env, OpEnv).
 evaluate_if(false, _Y, Z, Env, OpEnv):- eval_command(Z, Env, OpEnv).
 
 evaluate_while(true,X, Y, Env, OpEnv):- eval_command(Y,Env,Temp), eval_next_cmd(while(X,Y),Temp,OpEnv).
-evaluate_while(false,_X,_Y,_Env,_OpEnv).
+evaluate_while(false,_X,_Y,_Env,Env).
 
-eval_bool_expr(bool_expr(X,Y), true, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
-eval_bool_expr(bool_expr(X,Y), false, Env, OpEnv):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 = R2).
-eval_bool_expr(bool_greater_expr(X,Y), Val, Env, OpEnv):- eval_new_expr(X, Env,R1), eval_new_expr(Y, Env,R2),
+eval_bool_expr(bool_expr(X,Y), true, Env, Env):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), R1 = R2.
+eval_bool_expr(bool_expr(X,Y), false, Env, Env):- eval_bool_term(X, R1, Env, OpEnv), eval_bool_expr(Y, R2, Env, OpEnv), \+(R1 = R2).
+eval_bool_expr(bool_greater_expr(X,Y), Val, Env, Env):- eval_new_expr(X, Env,R1), eval_new_expr(Y, Env,R2),
     (
         (R1 > R2, Val = true); (\+(R1 > R2), Val = false)
     ).
-eval_bool_expr(bool_lesser_expr(X,Y), Val, Env, OpEnv):- eval_new_expr(X, Env,R1), eval_new_expr(Y, Env, R2),
+eval_bool_expr(bool_lesser_expr(X,Y), Val, Env, Env):- eval_new_expr(X, Env,R1), eval_new_expr(Y, Env, R2),
     (
         (R1 < R2, Val = true); (\+(R1 < R2), Val = false)
     ).
