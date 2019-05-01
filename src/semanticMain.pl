@@ -75,6 +75,28 @@ eval_digit(num(N,Y), Val):- New #= N * Place * 10, check(Y, Place,Newnew), Val i
 check(num(Y),Place, Newnew):- Place = 1, Newnew is Y * Place.
 check(num(N,Y), Temp, Val):- New #= N * Place * 10, Temp #= Place * 10, check(Y, Place, Newnew), Val is New + Newnew.
 
+
+is_identifier(a).
+is_identifier(b).
+is_identifier(c).
+is_identifier(d).
+is_identifier(e).
+is_identifier(f).
+is_identifier(g).
+is_identifier(h).
+is_identifier(i).
+is_identifier(j).
+is_identifier(k).
+is_identifier(l).
+is_identifier(m).
+is_identifier(n).
+is_identifier(o).
+is_identifier(p).
+is_identifier(q).
+is_identifier(r).
+is_identifier(s).
+is_identifier(t).
+is_identifier(u).
 is_identifier(v).
 is_identifier(w).
 is_identifier(x).

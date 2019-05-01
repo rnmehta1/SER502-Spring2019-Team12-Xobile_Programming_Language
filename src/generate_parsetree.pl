@@ -52,12 +52,32 @@ term(new_term(X)) --> new_term(X).
 
 new_term(new_term_val(X)) --> identifier(X); number(X).
 
-identifier(x) --> [v].
+identifier(a) --> [a].
+identifier(b) --> [b].
+identifier(c) --> [c].
+identifier(d) --> [d].
+identifier(e) --> [e].
+identifier(f) --> [f].
+identifier(g) --> [g].
+identifier(h) --> [h].
+identifier(i) --> [i].
+identifier(j) --> [j].
+identifier(k) --> [k].
+identifier(l) --> [l].
+identifier(m) --> [m].
+identifier(n) --> [n].
+identifier(o) --> [o].
+identifier(p) --> [p].
+identifier(q) --> [q].
+identifier(r) --> [r].
+identifier(s) --> [s].
+identifier(t) --> [t].
+identifier(u) --> [u].
 identifier(v) --> [v].
+identifier(w) --> [w].
 identifier(x) --> [x].
 identifier(y) --> [y].
 identifier(z) --> [z].
-
 
 
 number(num(X, Y)) --> digit(X),number(Y).
