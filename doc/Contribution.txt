@@ -1,25 +1,68 @@
+
 SER 502 Project Team 12
 
-MileStone 2
+Milestone 1
+
+    Git Hub Repository created with project structure 
+
+Milestone 2
 
 Vaibhav Singhal
 	Tokenization using Python, generating the .tockens file and passing it to the parser, removing the error in grammar and documentation.
+
 Janani Anand
 	Creating the grammar, adding the different command_statements.
+
 Manikanta Chintakunta
 	Creating the grammar, fixing the issues, removing right recursion and documentation.
+
 Nikhila Saini
 	coverting the grammar into into prolog code and generating the parse tree
 
+============================================================================================================================================	
 
-MileStone 3
+Milestone 3 (TENTATIVE PLAN)
 
 Vaibhav Singhal
 	Fixing some issues in Tokenization and creating automatic scripting to run all part of the project to execute the code.
+
 Manikanta Chintakunta
 	Updating the grammar and creating logic for semantic part.
+
 Janani Anand
 	Using the logic and coding the semantic part of the language.
+
 Nikhila Saini
 	executing the program and mapping the semantic part with the executed result, with mutliple test cases(testing).
+	
+===============================================================================================================================================
+	
+WORK PROGRESS - FINAL 
+
+Vaibhav Singhal 
+     Fixed the grammer and parse tree,
+	 Created semantics for declaration and while loop,
+	 Updated grammar to accepts strings or characters,
+	 Final Integration of the code  
+
+Janani Anand
+      Added the semantics part for print functionality, arithmetic operaions( multiplication and division) and boolean expression
+ 	  Added more functionalities to interpreter,
+	  Corrected some errors in grammar and syntax tree.
+	  Contributed to making the presentation, documenatation
+
+Nikhila Saini 
+      Updated tokenization for special cases,
+	  Added sematics for expressions, multiple commands, 
+      Contribute to making the presentation     
+      Worked on improving code readability, 
+      Minor bugs fixed in expressions	  
+
+Manikanta Chintakunta
+      Fixed syntax tree to take boolean expression and modified print in semantics, 
+	  Added sematics for arithmetic operations( addition and subtraction),
+	  Implemented semantics for conditional statements(if-else)
+	  
+	  
+      
 	
