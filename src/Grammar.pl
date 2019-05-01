@@ -30,20 +30,18 @@ K ::=  begin D ; C end.
 D ::= ND ; D | D
 ND ::= boolean I | int I
 
-C ::= NC , C | NC
-NC ::= ID = E ;
-    | ID = BE ;
+C ::= NC ; C | NC
+NC ::= ID = E
+    | ID = BE
     | print PL ;
     | if BE { C } else { C }
     | while BE { C }
     | K
 
 PL ::= E | BE | " Str "
-Str ::= ["] [X] ["]
+Str ::= [X]
 
 BE ::= Bt ~ BE
-    | T > T
-    | T < T
     | not BE
     | ! BE
     | Bt
@@ -52,7 +50,7 @@ Bt ::= true
 	| false
 	| ( BE )
 	| ( BE ) ~ Bt
-	| Nt
+	| I
 
 E ::=  T + E | T - E | T
 T ::= ( E ) T

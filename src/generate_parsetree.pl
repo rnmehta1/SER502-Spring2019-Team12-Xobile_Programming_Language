@@ -7,14 +7,14 @@ rend_block(block(X)) --> [begin], rend_declaration(X), [end], [.].
 rend_block(block(X)) --> [begin], rend_command(X), [end], [.].
 rend_block(block()) --> [begin], [end], [.].
 
-
+rend_declaration(declaration(X, Y)).
 rend_declaration(declaration(X, Y)) --> next_declaration(X), rend_declaration(Y).
 rend_declaration(declaration(X)) --> next_declaration(X).
 
 next_declaration(boolean(X)) --> [boolean], identifier(X), [;].
 next_declaration(integer(X)) --> [int], identifier(X), [;].
 
-
+rend_command(command(X)).
 rend_command(command(X,Y)) --> next_command(X), rend_command(Y).
 rend_command(command(X)) --> next_command(X).
 
@@ -52,29 +52,8 @@ term(new_term(X)) --> new_term(X).
 
 new_term(new_term_val(X)) --> identifier(X); number(X).
 
-identifier(a) --> [a].
-identifier(b) --> [b].
-identifier(c) --> [c].
-identifier(d) --> [d].
-identifier(e) --> [e].
-identifier(f) --> [f].
-identifier(g) --> [g].
-identifier(h) --> [h].
-identifier(i) --> [i].
-identifier(j) --> [j].
-identifier(k) --> [k].
-identifier(l) --> [l].
-identifier(m) --> [m].
-identifier(n) --> [n].
-identifier(o) --> [o].
-identifier(p) --> [p].
-identifier(q) --> [q].
-identifier(r) --> [r].
-identifier(s) --> [s].
-identifier(t) --> [t].
-identifier(u) --> [u].
+identifier(x) --> [v].
 identifier(v) --> [v].
-identifier(w) --> [w].
 identifier(x) --> [x].
 identifier(y) --> [y].
 identifier(z) --> [z].
