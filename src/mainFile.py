@@ -26,3 +26,5 @@ temp += '].'
 
 with open('!xobile Samples//{}tokens'.format(fileName[:-3]), 'w') as tokens:
     print(temp, file=tokens, flush=True)
+
+print('{}tokens'.format(fileName[:-3]))
