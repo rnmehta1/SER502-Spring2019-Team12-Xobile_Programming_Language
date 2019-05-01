@@ -3,7 +3,7 @@ int x;
 int y;
 x = 2;
 y = 1;
-if x >y
+if x > y
 {
 	x = x-10;
 }

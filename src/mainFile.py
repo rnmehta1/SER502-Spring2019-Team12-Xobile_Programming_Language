@@ -2,11 +2,6 @@ from Tokenization import Tokens
 
 fileName = str(input("Enter the file fileName: "))
 LinesOfTokens = (Tokens.Tokenization("!xobile Samples//{}".format(fileName)))
-# print(LinesOfTokens)
-
-
-# with open('!xobile Samples//{}tokens'.format(fileName[:-3]), 'w') as tokens:
-#     print(LinesOfTokens, file=tokens, flush=True)
 
 with open('!xobile Samples//{}tokenstreams'.format(fileName[:-3]), 'w') as tokens:
     for i in LinesOfTokens:
