@@ -30,15 +30,14 @@ def Tokenization(filename):
                     if strflag is False:
                         strflag = True
                         if token != '':
-                            eachline.append(token)
+                            eachline.append('\'' + token + '\'')
                             token = ''
-                        eachline.append(c)
                     else:
                         strflag = False
                         if token != '':
-                            eachline.append(token)
-                        eachline.append('"')
+                            eachline.append('\'' + token + '\'')
                         token = ''
+                    eachline.append("'{}'".format(c))
 
                 elif strflag is True:
                     token += c
@@ -100,7 +99,7 @@ def Tokenization(filename):
 
 
 if __name__ == "__main__":
-    tokens = Tokenization("..\\!xobile Samples//file.lol")
+    tokens = Tokenization("..\\!xobile Samples//basic.lol")
     print(tokens)
 # if __name__ == "__main__":
 #     tokens = Tokenization("..\\First.lol")
